@@ -1,12 +1,18 @@
 name: CI
-
 on:
-  push:
   pull_request:
-  workflow_dispatch:
+  push:
+    branches-ignore:
+    - dependabot/*
+    - renovate/*
   schedule:
-  - cron: '0 0 * * 0'
-
+  - cron: 0 0 * * 0
+  workflow_dispatch:
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+permissions:
+  contents: read
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -46,20 +52,15 @@ jobs:
         - ruby-version: '3.1'
           bundler-version: '4.0'
     env:
-      TEST_BUNDLER_VERSION: ${{ matrix.bundler-version }}
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      TEST_BUNDLER_VERSION: "${{ matrix.bundler-version }}"
     steps:
     - uses: actions/checkout@v6
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler: ${{ matrix.bundler-version }}
+        ruby-version: "${{ matrix.ruby-version }}"
+        bundler: "${{ matrix.bundler-version }}"
         bundler-cache: true
       timeout-minutes: 30
     - name: Run tests
       run: bundle exec rake
-    - name: Report code coverage
-      if: ${{ github.ref == 'refs/heads/master' && matrix.ruby-version == '3.4' && matrix.bundler-version == '2.7' }}
-      continue-on-error: true
-      uses: paambaati/codeclimate-action@v9
