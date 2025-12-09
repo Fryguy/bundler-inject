@@ -2,8 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/bundler-inject.svg)](http://badge.fury.io/rb/bundler-inject)
 [![CI](https://github.com/ManageIQ/bundler-inject/actions/workflows/ci.yaml/badge.svg)](https://github.com/ManageIQ/bundler-inject/actions/workflows/ci.yaml)
-[![Code Climate](https://codeclimate.com/github/ManageIQ/bundler-inject.svg)](https://codeclimate.com/github/ManageIQ/bundler-inject)
-[![Test Coverage](https://codeclimate.com/github/ManageIQ/bundler-inject/badges/coverage.svg)](https://codeclimate.com/github/ManageIQ/bundler-inject/coverage)
 
 **bundler-inject** is a [bundler plugin](https://bundler.io/guides/bundler_plugins.html)
 that allows a developer to extend a project with their own personal gems and/or
